@@ -6,4 +6,5 @@ import os
 imageList = glob.glob("out\\*.tiff")
 
 for imgPath in imageList:
-    print imgPath, pytesseract.image_to_string(Image.open(imgPath), config='-psm 6 config' )
+	print imgPath, ':'
+	print pytesseract.image_to_string( Image.open( imgPath ), config = "-psm 6 config" )
