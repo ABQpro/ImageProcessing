@@ -11,8 +11,7 @@ THRESH_HOLD = 100
 
 def isNumber(x, y, w, h, shape):
     ''' return True if a rect bounds a number
-    '''
-
+    '''    
     result = True
     result &= w < shape[1] * .6
     result &= h < shape[0] * .6
