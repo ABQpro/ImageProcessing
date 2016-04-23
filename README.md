@@ -7,7 +7,7 @@ Nội dung :
     - Một số kinh nghiệm
     - FAQ
  
---------------------- 
+ 
 I, HƯỚNG DẪN SỬ DỤNG 
 ---------------------
     0, Cài đặt
@@ -16,8 +16,8 @@ I, HƯỚNG DẪN SỬ DỤNG
        
        - Module này sử dùng opencv, cách cài đặt opencv(Phiên)  
             http://docs.opencv.org/3.1.0/d5/de5/tutorial_py_setup_in_windows.html
-
-       - Tesseract 3.02, sử dụng Windows Installer 
+            
+        - Tesseract 3.02, sử dụng Windows Installer 
             https://sourceforge.net/projects/tesseract-ocr-alt/files/
        
        - Chạy tốt trên windows
@@ -39,9 +39,10 @@ I, HƯỚNG DẪN SỬ DỤNG
                 - File ảnh threshhold (.tiff)
                 - File txt (x, y, w, h, 0) ghi theo tọa độ xOy trái dưới
                 
+                
 
 II, Mô tả hoạt động 
----------------------
+-----------
 
     Module sử dụng : 
         - ThreshHold để phần số nổi lên 
@@ -49,10 +50,10 @@ II, Mô tả hoạt động
         - Equalize Histogram đề phòng trường hợp ảnh bị tối,không rõ
         - Contrast để làm rõ hình ảnh, phục vụ ThreshHold
         
--------------------------
+
 III, Một số kinh nghiệm
 -------------------------
 
-------------------------
+
 IV, FAQ
 ---------------------------
