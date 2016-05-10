@@ -7,7 +7,7 @@ import getopt
 import sys
 import pytesseract
 
-THRESH_HOLD = 100
+THRESH_HOLD = 91
 
 def isNumber(x, y, w, h, shape):
     ''' return True if a rect bounds a number
@@ -43,9 +43,8 @@ def preThreshHold(img, name):
     '''
     img = cv2.equalizeHist(img)
 
-	# phần clahe có lẽ không cần, để cho general hết sức có thể.
-    #clahe = cv2.createCLAHE(clipLimit=10.0, tileGridSize=(12, 12))
-    #img = clahe.apply(img)
+    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(11, 11))
+    img = clahe.apply(img)
     return img
 
 
@@ -53,24 +52,23 @@ def getNumbers(img, name, threshhold):
     '''
     '''
     ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
-
-    contours, hierarchy = \
-         cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    _, contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     outImg = np.zeros(img.shape, np.uint8)
     outImg += 255
-    fo = open('out/' + name + '.txt', 'w')
 
     for cnt in contours:
-        rect = cv2.boundingRect(cnt)
-        x, y, w, h = rect
+        x, y, w, h = cv2.boundingRect(cnt)
         if isNumber(x, y, w, h, img.shape):
             outImg[y:y + h, x:x + w] = thresh[y:y + h, x:x + w]
-
-            cv2.drawContours(outImg, [cnt], 0, (125, 125, 125), 5)
-            fo.write(toOtherCor(x, y, w, h, img.shape))
-    fo.close()
+            cv2.drawContours(outImg, [cnt], 0, (125, 125, 125), 5 )
     cv2.imwrite('out/' + name + '.tiff', outImg)
+
+    height, width = outImg.shape
+    outImg = cv2.resize( outImg, ( 400, 400 * height / width ) )
+
+    image = Image.fromarray( outImg )
+    print pytesseract.image_to_string( image, config = "-psm 6 config" )
 
 
 #imageList = ['inp\\DSC_0002.JPG']
@@ -126,10 +124,6 @@ def main(argv):
     #else:
     #crop(inputFile, outputDir)
     crop('inp/*.JPG', 'out/')
-	imageList = glob.glob("out\\*.tiff")
-	for imgPath in imageList:
-		print imgPath, ':'
-		print pytesseract.image_to_string( Image.open( imgPath ), config = "-psm 6 config" )
     pass
 
 if __name__ == "__main__":    
