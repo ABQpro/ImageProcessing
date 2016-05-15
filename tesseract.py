@@ -24,20 +24,6 @@ def isNumber(x, y, w, h, shape):
     result &= ratio == sorted((1.7, ratio, 4.0))[1]
     return result
 
-
-def toOtherCor(x, y, w, h, shape):
-    '''
-    '''
-
-    lx = shape[1] - (x + w)
-    ly = shape[0] - (y + h)
-
-    rx = lx + w
-    ry = ly + h
-
-    return str.format("{0} {1} {2} {3} 0\n", lx, ly, rx, ry)
-
-
 def preThreshHold(img, name):
     ''' a little process before threshholding
     '''
@@ -46,10 +32,7 @@ def preThreshHold(img, name):
     img = clahe.apply(img)
     return img
 
-
 def getNumbers(img, name, threshhold):
-    '''
-    '''
     ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
     _, contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -69,16 +52,9 @@ def getNumbers(img, name, threshhold):
     image = Image.fromarray( outImg )
     print pytesseract.image_to_string( image, config = "-psm 6 config" )
 
-
-#imageList = ['inp\\DSC_0002.JPG']
-#imageList = glob.glob("inp\\*.JPG")
-
 def crop(inp, out):
-    '''
-    '''
     imageList = glob.glob(inp)
     for imgPath in imageList:
-        #glbCount = 0
         print imgPath, ' : '
         img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
 
@@ -121,12 +97,11 @@ def main(argv):
             inputFile = arg
         elif opt in ("-o", "--ofile"):
             outputDir = arg
-  
-    #if (inputFile == '' or outputDir == ''):
-     #   showHelp()
-    #else:
-    #crop(inputFile, outputDir)
-    crop('inp/*.JPG', 'out/')
+    if ( inputFile == '' ):
+        inputFile = 'inp/*.JPG'
+    if ( outputDir == '' ):
+        outputDir = 'out/'
+    crop(inputFile, outputDir)
     pass
 
 if __name__ == "__main__":    
