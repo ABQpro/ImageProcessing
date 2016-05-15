@@ -42,7 +42,6 @@ def preThreshHold(img, name):
     ''' a little process before threshholding
     '''
     img = cv2.equalizeHist(img)
-
     clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(11, 11))
     img = clahe.apply(img)
     return img
@@ -91,15 +90,18 @@ def crop(inp, out):
 def showHelp():
     ''' Show help of the module
     '''
-    print '\n\n',\
-        'USAGE : python CropperBeta.py [-i INPUT_FILE(S)] [-o OUTPUT_DIRECTORY]\n\n', \
-        '    -i INPUT_FILES\n', \
-        '        set input files, may be (*.jpg *.tiff *.png)\n\n', \
-        '    -o OUTPUT_DIRECTORY\n', \
-        '        set output directory (will be created if not exists)\n\n', \
-        'example :\n', \
-        '    python CropperBeta.py -i inp/*.jpg -o out/', \
-        '\n\n'
+    print '\n',\
+        'USAGE : python Tesseract.py [-i INPUT_FILE(S)] [-o OUTPUT_DIRECTORY]\n', \
+        '   -i INPUT_FILES\n', \
+        '       set input files, may be (*.jpg *.tiff *.png)\n', \
+        '   -o OUTPUT_DIRECTORY\n', \
+        '       set output directory (will be created if not exists)\n\n', \
+        'EXAMPLE :\n', \
+        '    python Tesseract.py -i inp/*.jpg -o out/\n\n', \
+        'INPUT_FILE(s) is a list of license plate images( should have the same name extension ).\n\n',\
+        'OUTPUT_DIRECTORY should be images of readable numbers and character, which are forward\n',\
+        '    to Tesseract OCR to get the plates.\n\n',\
+        'The accuracy of our detection is equivalent to how clear the input is.\n\n',
 
 
 def main(argv):
@@ -113,6 +115,7 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print 'test.py -i <inputfile> -o <outputfile>'
+            showHelp()
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputFile = arg

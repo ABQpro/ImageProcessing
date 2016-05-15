@@ -28,7 +28,7 @@ I, HƯỚNG DẪN SỬ DỤNG
         - vị trí các chữ, số phải đặt ở giữa của ảnh, các số/chữ bị đặt sát lề sẽ không được tính                   
     
     2, Các bước tiến hành       
-        - Chạy File ./cropperBeta -h để hiện hỗ trợ
+        - Chạy python tesseract.py -h để hiện hỗ trợ
         - Với mỗi ảnh, output sẽ gồm 2 files : 
 				+ File ảnh threshhold (.tiff)
                 + File txt (x, y, w, h, 0) ghi theo tọa độ xOy trái dưới
