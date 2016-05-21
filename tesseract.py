@@ -34,8 +34,11 @@ def preThreshHold(img, name):
 
 def getNumbers(img, name, threshhold):
     ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
+    cv2.imwrite('threshHold/' + name + '.tiff', thresh)
     _, contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
+    imT = thresh.copy()
+    cv2.drawContours(imT,contours,-1,(0,255,0),3)
+    cv2.imwrite( 'contour/' + name + '.tiff', imT )
     outImg = np.zeros(img.shape, np.uint8)
     outImg += 255
 
@@ -57,9 +60,11 @@ def crop(inp, out):
     for imgPath in imageList:
         print imgPath, ' : '
         img = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
-
+        img = cv2.resize( img, ( 2048, 1536 ) )
         dir, name = os.path.split(imgPath)
         img = preThreshHold(img, name)
+        cv2.imwrite('equalizeHist/' + name[:-4] + '.tiff', img )
+		#pre Threshold la equalizeHist
         getNumbers(img, name[:-4], THRESH_HOLD)
 
 
@@ -98,7 +103,7 @@ def main(argv):
         elif opt in ("-o", "--ofile"):
             outputDir = arg
     if ( inputFile == '' ):
-        inputFile = 'inp/*.JPG'
+        inputFile = 'inp/*.jpg'
     if ( outputDir == '' ):
         outputDir = 'out/'
     crop(inputFile, outputDir)
