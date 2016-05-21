@@ -7,47 +7,50 @@ import getopt
 import sys
 import pytesseract
 
-THRESH_HOLD = 91
+THRESH_HOLD = 81
+THRESH_HOLD_BOX = 99
 
 def isNumber(x, y, w, h, shape):
     ''' return True if a rect bounds a number
     '''    
     result = True
-    result &= w < shape[1] * .6
-    result &= h < shape[0] * .6
-    result &= (x > 5) and (shape[1] - x > w + 10)
-    result &= (y > 5) and (shape[0] - y > h + 110)
+    result &= (x > 28) and (shape[1] - x > w + 28)
+    result &= (y > 28) and (shape[0] - y > h + 28)
 
-    result &= (w > 150) and (h > 300)
+    result &= ( w > 100 ) and ( h > 300 ) and ( w < 400 ) and ( h < 1000 )
 
     ratio = float(h) / float(w)
-    result &= ratio == sorted((1.7, ratio, 4.0))[1]
+    result &= ratio == sorted((1, ratio, 5))[1]
     return result
 
 def preThreshHold(img, name):
     ''' a little process before threshholding
     '''
     img = cv2.equalizeHist(img)
-    clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(11, 11))
-    img = clahe.apply(img)
     return img
 
 def getNumbers(img, name, threshhold):
-    ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
+    # normal threshHold
+    #ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
+    # adaptive threshHold
+    thresh = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, THRESH_HOLD_BOX,7)
     cv2.imwrite('threshHold/' + name + '.tiff', thresh)
+
     _, contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
     imT = thresh.copy()
-    cv2.drawContours(imT,contours,-1,(0,255,0),3)
-    cv2.imwrite( 'contour/' + name + '.tiff', imT )
     outImg = np.zeros(img.shape, np.uint8)
     outImg += 255
 
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
         if isNumber(x, y, w, h, img.shape):
+            cv2.rectangle(imT,(x,y),(x+w,y+h),(0,255,0),5)
             outImg[y:y + h, x:x + w] = thresh[y:y + h, x:x + w]
             cv2.drawContours(outImg, [cnt], 0, (125, 125, 125), 5 )
+
     cv2.imwrite('out/' + name + '.tiff', outImg)
+    cv2.imwrite( 'contour/' + name + '.tiff', imT )
 
     height, width = outImg.shape
     outImg = cv2.resize( outImg, ( 400, 400 * height / width ) )
@@ -64,7 +67,6 @@ def crop(inp, out):
         dir, name = os.path.split(imgPath)
         img = preThreshHold(img, name)
         cv2.imwrite('equalizeHist/' + name[:-4] + '.tiff', img )
-		#pre Threshold la equalizeHist
         getNumbers(img, name[:-4], THRESH_HOLD)
 
 
