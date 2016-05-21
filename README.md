@@ -40,7 +40,6 @@ II, Mô tả hoạt động
         - ThreshHold để phần số nổi lên 
         - Contour để lấy các phần nổi lên
         - Equalize Histogram đề phòng trường hợp ảnh bị tối, không rõ
-        - Contrast để làm rõ hình ảnh, phục vụ ThreshHold
 		- Tesseract OCR để đọc biển số
         
 
@@ -68,11 +67,7 @@ IV, Quá trình phát triển
 			để xử lí phần bị nhòe, bị bóng. Equalize Histogram giúp làm ảnh rõ nét hơn. 
 		+ Tuy nhiên, các Module sử dụng đều được lựa chọn thông số cho phù hợp nhất với bộ data, 
 			cho nên nó có thể chạy không tốt với một số bộ data khác
-		+ Sử dụng threshHold cơ bản sẽ detect được nhiều số hơn, trong khi đó Adaptive ThreshHold 
-			thì nhận diện số rõ nét hơn -> dùng ThreshHold thường để nhận diện số cơ bản, và sử dụng
-			Adaptive ThreshHold để nhận diện số rõ hơn. Nếu Adaptive nhận diện được số nào thì sẽ 
-			chắc chắn sử dụng chữ số đó, còn những số nào mà ThreshHold thường nhận diện được mà
-			Adaptive không nhận diện được sẽ sử dụng chữ số của ThreshHold nhận diện
+		+ Sử dụng Adaptive ThreshHold sẽ detect số rất hiệu quả
 		+ Kết quả nhận diện khá tốt, với một bộ dữ liệu kém, song đã nhận diện đúng 100% cho khoảng 10% 
 			bộ data, đúng >= 50% cho phần lớn bộ dữ liệu. Nếu với bộ dữ liệu đẹp thì ước lượng đúng >= 80% 
 			cho tất cả các ảnh
