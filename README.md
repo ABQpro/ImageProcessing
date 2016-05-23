@@ -23,7 +23,7 @@ I, Hướng dẫn sử dụng
 		- Chạy được trên windows( chưa test trên Linux và MacOS)
     
     1, Chuẩn bị ảnh input
-        - Các ảnh phải được chụp vuông góc, có cỡ fullHD, càng ít hình tạp càng tốt         
+        - Các ảnh phải được chụp vuông góc, có cỡ 2000 * 1500, càng ít hình tạp càng tốt         
         - Chất lượng hình phải tốt, không nhòe, không bóng, nếu không chất lượng output sẽ bị giảm    
         - Vị trí các chữ, số phải đặt ở giữa của ảnh, các số/chữ bị đặt sát lề sẽ không được tính                   
     

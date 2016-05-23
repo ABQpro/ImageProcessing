@@ -14,10 +14,10 @@ def isNumber(x, y, w, h, shape):
     ''' return True if a rect bounds a number
     '''    
     result = True
-    result &= (x > 28) and (shape[1] - x > w + 28)
-    result &= (y > 28) and (shape[0] - y > h + 28)
+    result &= (x > 30) and (shape[1] - x > w + 150)
+    result &= (y > 10) and (shape[0] - y > h + 20)
 
-    result &= ( w > 100 ) and ( h > 300 ) and ( w < 400 ) and ( h < 1000 )
+    result &= ( w > 80 ) and ( h > 300 ) and ( w < 400 ) and ( h < 1000 )
 
     ratio = float(h) / float(w)
     result &= ratio == sorted((1, ratio, 5))[1]
@@ -33,7 +33,7 @@ def getNumbers(img, name, threshhold):
     # normal threshHold
     #ret1, thresh = cv2.threshold(img, threshhold, 255, cv2.THRESH_BINARY)
     # adaptive threshHold
-    thresh = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, THRESH_HOLD_BOX,7)
+    thresh = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, THRESH_HOLD_BOX,8)
     cv2.imwrite('threshHold/' + name + '.tiff', thresh)
 
     _, contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
